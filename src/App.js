@@ -1,25 +1,28 @@
-import logo from './logo.svg';
 import './App.css';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function App() {
+  let change=()=>{}
+  function changeS(callback) {
+    change=callback;
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={()=>{change('blue')}}>change background of btn</button>
+      <Child changeS={changeS} />
     </div>
   );
+}
+
+function Child(props) {
+  const[color,setColor]=useState('orange')
+  useEffect(()=>{
+    props.changeS(setColor)
+  },[])
+  return(
+    <button style={{backgroundColor: color}}>child btn</button>
+  )
 }
 
 export default App;
